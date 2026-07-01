@@ -43,21 +43,22 @@ namespace IntelligencePipeline.Models.Reports
             => "Signal";
         public override int CalculateReliabilityScore()
         {
-            string[] danguaresWords = { "attack", "target", "border", "vehicle" };
+            string[] dangerousWords = { "attack", "target", "border", "vehicle" };
             const int BASE = 5;
             int realScore = 0 ;
 
 
             if (SignalStrength >= -40) realScore += 3;
-            else if (SignalStrength >= -70) realScore += 2;
+            else if (SignalStrength >= -70) realScore += 2; 
             else if (SignalStrength < -100) realScore -= 2;
 
-            if (danguaresWords.Any(word => Content.Contains(word, StringComparison.OrdinalIgnoreCase))){
+            if (dangerousWords.Any(word => Content.Contains(word, StringComparison.OrdinalIgnoreCase))){
                 realScore += 1;
             }
 
             realScore += BASE;
-            realScore = realScore > 10 ? 10 : realScore;
+            realScore = realScore > 10 ? 10 : realScore; // Clampts the score to 1 - 10 ; 10 is the highest
+            realScore = realScore < 1 ? 1 : realScore; // Clampts the score to 1 - 10 ; 1 is the lower
             return realScore;
          }
         public override string GetSummary()

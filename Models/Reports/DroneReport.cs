@@ -31,7 +31,20 @@ class DroneReports : Report
 
         public override int CalculateReliabilityScore()
         {
-            return 0; //TODO calculate
+            const int BASE = 5;
+            int realScore = 0;
+
+            if (ImageQuality >= 80) realScore += 3;
+            else if (ImageQuality >= 50) realScore += 2;
+
+            if (Altitude >= 500 && Altitude <= 3000) realScore += 2;
+            else if (Altitude > 7000) realScore -= 2;
+
+            realScore += BASE;
+            realScore = realScore > 10 ? 10 : realScore; // Clampts the score to 1 - 10 ; 10 is the highest
+            realScore = realScore < 1 ? 1 : realScore; // Clampts the score to 1 - 10 ; 11 is the lower
+
+            return realScore;
         }
         public override string GetSummary()
             => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";

@@ -46,8 +46,8 @@ class RadarReport : Report
         else if (Speed > 1500) realScore -= 2;
 
         realScore += BASE;
-        realScore = realScore > 10 ? 10 : realScore;
-        realScore = realScore < 1 ? 1 : realScore;
+        realScore = realScore > 10 ? 10 : realScore; // Clampts the score to 1 - 10 ; 10 is the highest
+        realScore = realScore < 1 ? 1 : realScore; // Clampts the score to 1 - 10 ; 1 is the lower
 
         return realScore;
 
