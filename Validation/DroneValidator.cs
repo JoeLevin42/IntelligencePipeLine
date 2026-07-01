@@ -7,20 +7,19 @@ namespace IntelligencePipeline.Validation
     {
         protected override ValidationResult ValidateSpecificFields(Report report)
         {
-            const string SOURCE_TYPE = "Drone";
-            string reportType = report.GetSourceType();
-            if (reportType != SOURCE_TYPE)
-            {
-                return ValidationResult.Failure($"The type has to be {SOURCE_TYPE} and not: {reportType}");
-            }
-            DroneReport Dreport = (DroneReport)report;
-            if (!(Dreport.Altitude >= 100 && Dreport.Altitude <= 10000))
+            DroneReport droneReport = (DroneReport)report;
+            if (!(droneReport.Altitude >= 100 && droneReport.Altitude <= 10000) )
             {
                 return ValidationResult.Failure("The Alitutde is not good to high or too low");
             }
 
+            if (!(droneReport.ImageQuality >= 1 && droneReport.ImageQuality <= 100))
+            {
+                return ValidationResult.Failure("The Image quality is not valid its have to be between 1- 100");  
 
+            }
 
-
+            return ValidationResult.Success();
+        }
     }
 }
