@@ -3,7 +3,7 @@ using IntelligencePipeline.Models.Enums;
 namespace IntelligencePipeline.Models.Reports
 {
 
-    abstract class Report
+    public abstract class Report
     {
         private static int _nextReportId = 1;
         

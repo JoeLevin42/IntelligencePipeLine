@@ -1,6 +1,6 @@
 
 
-using IntelligencePipeline.Models.Validations;
+using IntelligencePipeline.Models.Validation;
 using IntelligencePipeline.Models.Reports;
 
 

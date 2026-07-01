@@ -1,4 +1,4 @@
-namespace IntelligencePipeline.Models.Validations
+namespace IntelligencePipeline.Models.Validation
 {
     public class ValidationResult
     {
