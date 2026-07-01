@@ -2,78 +2,94 @@ using IntelligencePipeline.Models.Enums;
 
 namespace IntelligencePipeline.Models.Reports
 {
-    class Report
+
+    abstract class Report
     {
+        private static int _nextReportId = 1;
+        
+      
         private int _reportId;
+
         private DateTime _timestamp;
         private double _latitude;
         private double _longitude;
         private string _description;
         private ReportStatus _status;
-        private Priority _priority;
-        private Classification _classification;
-        private int _realiabiltyScore;
+        private Priority? _priority;
+        private Classification? _classification;
+        private int _reliabilityScore;
         private string _rejectionReason;
+        
 
-        int ReportId { get; } //read only
-        DateTime Timestamp { get => _timestamp; set
-            {
-                if (value> DateTime.Now)
-                {
-                    throw new ArgumentException("You cant put date that never happend!");
-                        // throws error on future timedate | EXTRA VALIDATION!
-                }
-                else
-                {
-                    _timestamp = value;
-                }
-                } 
+        public int ReportId { get => _reportId; } 
+        public DateTime Timestamp { get => _timestamp; 
+          protected set { _timestamp = value; }
+        }
+            
+            
+        
+
+        
+        public double Latitude { get => _latitude; 
+            
+                 protected set { _latitude = value; }
         }
 
-        double Latitude { get => _latitude; set
-            {
-                if (!(value< 29.5000 || value > 33.5000))
-                {
-                    throw new ArgumentException("The latitude is invalid ");
-                    // EXTRA VALIDATION NEED TO BE ALREADY VALIDATED BEFORE
-                }
-                else { _latitude = value; }
+        public double Longitude { get => _longitude;
+            protected set { _longitude = value; }
+        }
+        public string Description { get => _description;
+            protected set { _description = value; }
+        }
+            
+              
+        public ReportStatus Status { get => _status;
+                     protected set { _status = value; }
+        }
+            
+        public Priority? Priority { get => _priority; 
+                 protected set { _priority = value; }
+        }
+            
+        public Classification? Classification
+        {
+            get => _classification; 
+             protected set { _classification = value; }
+        }
+        
+
+        public int ReliabilityScore { get => _reliabilityScore;
+            protected set { _reliabilityScore = value; }
+        }
+        public string? RejectionReason { get => _rejectionReason; protected set{
+                _rejectionReason = value;
+
             } }
-        string Description { get => _description; set
-            {
-                if (!(value.Length <10 || value.Length > 500))
-                {
-                    throw new ArgumentException("The description is too short or too long");
-                    // EXTRA VALIDATION
-                }
-                else
-                {
-                    _description = value;
-                }
-            } }
-        ReportStatus Status { get => _status; set
-            {
-                if (!(Enum.IsDefined(typeof(ReportStatus), value)))
-                {
-                    throw new ArgumentException("Not valid satatus!");
-                    //EXTRA VALIDATION
-                }
-                else
-                {
-                    _status = value;
-                }
-            } }
-        Priority Priority { get => _priority; set
-            {
-                if (!(Enum.IsDefined(typeof(Priority), value)))
-                {
-                    throw new ArgumentException("Not Valid Priority!");
-                    //EXTRA VALIDATION
-                }
-                else
-                {
-                    _priority = value;
-                }
-            } }
-    }
+
+      
+        
+        protected Report(DateTime timeStamp, double latitude, double longitude, string description)
+        {
+            _reportId = _nextReportId++;
+            Timestamp = timeStamp;
+            Latitude = latitude;
+            Longitude = longitude;
+            Description = description;
+            Status = ReportStatus.New;
+            Priority = null; // starts with null and only in the pipeline its will be implemented
+            Classification = null; // starts with null and only in the pipeline its will be implemented
+            RejectionReason = null;
+        }
+
+        public abstract string GetSourceType();
+        public abstract int CalculateReliabilityScore();
+
+        public virtual string GetSummary()
+        => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
+        public override string ToString()
+         => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
+
+
+
+    }   
 }
