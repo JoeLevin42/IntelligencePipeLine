@@ -1,7 +1,7 @@
 using IntelligencePipeline.Models.Reports;
 
 namespace IntelligencePipeline.Models.Reports {
-class DroneReports : Report
+class DroneReport : Report
     {
         private int _altitude;
         private int _imageQuality;
@@ -18,7 +18,7 @@ class DroneReports : Report
             protected set { _imageQuality = value; }
         }
 
-        DroneReports(DateTime timeStamp, double latitude, double longitude, string description, int altitude, int imageQuality)
+        DroneReport(DateTime timeStamp, double latitude, double longitude, string description, int altitude, int imageQuality)
             : base(timeStamp, latitude, longitude, description)
         {
             Altitude = altitude;

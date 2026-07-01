@@ -16,7 +16,7 @@ namespace IntelligencePipeline.Models.Validation
         }
 
         public static ValidationResult Success() {
-            return new ValidationResult(true, ""); }
+            return new ValidationResult(true, string.Empty); }
         public static ValidationResult Failure(string errorMessage) {
             return new ValidationResult(false, errorMessage);
         }

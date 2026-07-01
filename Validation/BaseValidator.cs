@@ -1,7 +1,7 @@
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Models.Validation;
 
-namespace IntelligencePipelineValidation
+namespace IntelligencePipeline.Validation
 {
     public abstract class BaseValidator : IValidator
     {
@@ -13,7 +13,7 @@ namespace IntelligencePipelineValidation
             {
                 return commonResult;
             }
-
+            
             return ValidateSpecificFields(report);
         }
 
