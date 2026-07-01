@@ -44,7 +44,7 @@ namespace IntelligencePipeline.Models.Reports
             
               
         public ReportStatus Status { get => _status;
-                     protected set { _status = value; }
+                     set { _status = value; }
         }
             
         public Priority? Priority { get => _priority; 
