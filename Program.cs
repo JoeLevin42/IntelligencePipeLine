@@ -29,7 +29,7 @@ namespace IntelligencePipeline
 
                 if (choice == "0")
                     break;
-            
+
 
                 Report report = CreateReport(choice);
 
@@ -50,7 +50,7 @@ namespace IntelligencePipeline
         private static Report CreateReport(string choice)
         {
 
-            Console.Write("Pleae ");
+            Console.Write("Please Enter date ");
         }
     }
 }
