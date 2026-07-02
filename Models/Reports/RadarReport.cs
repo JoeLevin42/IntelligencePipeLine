@@ -56,4 +56,3 @@ class RadarReport : Report
         => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
 
 }
-}

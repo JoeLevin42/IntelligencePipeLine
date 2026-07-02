@@ -1,6 +1,6 @@
 using IntelligencePipeline.Models.Reports;
 
-namespace IntelligencePipeline.Repositories
+namespace IntelligencePipeline.Storage
 {
     class RejectedReportRepository
     {

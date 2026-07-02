@@ -18,7 +18,7 @@ class DroneReport : Report
             protected set { _imageQuality = value; }
         }
 
-        DroneReport(DateTime timeStamp, double latitude, double longitude, string description, int altitude, int imageQuality)
+        public DroneReport(DateTime timeStamp, double latitude, double longitude, string description, int altitude, int imageQuality)
             : base(timeStamp, latitude, longitude, description)
         {
             Altitude = altitude;

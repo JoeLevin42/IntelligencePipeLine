@@ -1,4 +1,4 @@
-namespace IntelligencePipeline.Models.Validation
+namespace IntelligencePipeline.Validation
 {
     public class ValidationResult
     {
@@ -22,4 +22,3 @@ namespace IntelligencePipeline.Models.Validation
         }
         }
     }
-}

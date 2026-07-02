@@ -1,5 +1,5 @@
 using IntelligencePipeline.Models.Reports;
-using IntelligencePipeline.Models.Validation;
+using IntelligencePipeline.Validation;
 
 namespace IntelligencePipeline.Validation
 {

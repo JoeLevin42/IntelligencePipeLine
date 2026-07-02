@@ -23,7 +23,7 @@ namespace IntelligencePipeline.Models.Reports
 
         public int ReportId { get => _reportId; } 
         public DateTime Timestamp { get => _timestamp; 
-          protected set { _timestamp = value; }
+           set { _timestamp = value; }
         }
             
             
@@ -32,14 +32,14 @@ namespace IntelligencePipeline.Models.Reports
         
         public double Latitude { get => _latitude; 
             
-                 protected set { _latitude = value; }
+                 set { _latitude = value; }
         }
 
         public double Longitude { get => _longitude;
-            protected set { _longitude = value; }
+             set { _longitude = value; }
         }
         public string Description { get => _description;
-            protected set { _description = value; }
+             set { _description = value; }
         }
             
               
@@ -48,20 +48,20 @@ namespace IntelligencePipeline.Models.Reports
         }
             
         public Priority? Priority { get => _priority; 
-                 protected set { _priority = value; }
+                  set { _priority = value; }
         }
             
         public Classification? Classification
         {
             get => _classification; 
-             protected set { _classification = value; }
+              set { _classification = value; }
         }
         
 
         public int ReliabilityScore { get => _reliabilityScore;
-            protected set { _reliabilityScore = value; }
+             set { _reliabilityScore = value; }
         }
-        public string? RejectionReason { get => _rejectionReason; protected set{
+        public string? RejectionReason { get => _rejectionReason; set{
                 _rejectionReason = value;
 
             } }

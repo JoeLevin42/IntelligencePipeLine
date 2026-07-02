@@ -1,7 +1,7 @@
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Models.Enums;
 
-namespace IntelligencePipeline.Repositories
+namespace IntelligencePipeline.Storage
 {
     class ReportRepository
     {

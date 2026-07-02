@@ -1,10 +1,10 @@
 
 
-using IntelligencePipeline.Models.Validation;
+using IntelligencePipeline.Validation;
 using IntelligencePipeline.Models.Reports;
 
 
-namespace IntelligencePipeline.Models.Validation
+namespace IntelligencePipeline.Validation
 {
     public interface IValidator
     {

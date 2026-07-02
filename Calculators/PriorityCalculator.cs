@@ -7,15 +7,14 @@ namespace IntelligencePipeline.Calculators
     {
         public Priority Calculate(Report report)
         {
-            string text = report.Description.ToLower();
+            string description = report.Description.ToLower();
 
-
-            // Critical: keywords
-            if (ContainsKeyword(text, "missile", "explosion", "attack", "fire"))
+            // CRITICAL RULES
+            // Critical: keywords in description
+            if (ContainsKeyword(description, "missile", "explosion", "attack", "fire"))
             {
                 return Priority.Critical;
             }
-
 
             // Critical: Radar Speed >= 800
             if (report is RadarReport radar)
@@ -26,24 +25,28 @@ namespace IntelligencePipeline.Calculators
                 }
             }
 
-
-            // Critical: Signal with target AND attack
+            // Critical: Signal with TARGET description AND ATTACK content
             if (report is SignalReport signal)
             {
-                if (signal.Content != null &&
-                    ContainsKeyword(text, "attack"))
+                bool hasTarget = ContainsKeyword(description, "target");
+                bool hasAttack = signal.Content != null &&
+                                 ContainsKeyword(signal.Content.ToLower(), "attack");
+
+                if (hasTarget && hasAttack)
                 {
                     return Priority.Critical;
                 }
             }
 
+            
+            // HIGH RULES
+           
 
             // High: keywords
-            if (ContainsKeyword(text, "weapon", "suspicious", "border"))
+            if (ContainsKeyword(description, "weapon", "suspicious", "border"))
             {
                 return Priority.High;
             }
-
 
             // High: Drone Altitude < 500
             if (report is DroneReport drone)
@@ -54,7 +57,6 @@ namespace IntelligencePipeline.Calculators
                 }
             }
 
-
             // High: Radar Speed >= 400
             if (report is RadarReport radar2)
             {
@@ -64,24 +66,23 @@ namespace IntelligencePipeline.Calculators
                 }
             }
 
-
             // High: Soldier ConfidenceLevel >= 4 with movement
             if (report is SoldierReport soldier)
             {
                 if (soldier.ConfidenceLevel >= 4 &&
-                    ContainsKeyword(text, "movement"))
+                    ContainsKeyword(description, "movement"))
                 {
                     return Priority.High;
                 }
             }
 
+            // MEDIUM RULES
 
             // Medium: keywords
-            if (ContainsKeyword(text, "movement", "vehicle", "activity"))
+            if (ContainsKeyword(description, "movement", "vehicle", "activity"))
             {
                 return Priority.Medium;
             }
-
 
             // Medium: Radar Speed >= 120
             if (report is RadarReport radar3)
@@ -92,18 +93,15 @@ namespace IntelligencePipeline.Calculators
                 }
             }
 
-
             // Medium: ReliabilityScore >= 7
             if (report.ReliabilityScore >= 7)
             {
                 return Priority.Medium;
             }
 
-
-            // Default
+            // DEFAULT
             return Priority.Low;
         }
-
 
         private bool ContainsKeyword(string text, params string[] keywords)
         {
