@@ -33,13 +33,13 @@ namespace IntelligencePipeline.Validation
 
             if (report.Latitude < 29.5000 || report.Latitude > 33.5000)
             {
-                return ValidationResult.Failure("Invalid latitude");
+                return ValidationResult.Failure("Invalid Latitude: must be between 29.500 and 33.500");
             }
 
 
             if (report.Longitude < 34.0000 || report.Longitude > 36.0000)
             {
-                return ValidationResult.Failure("Invalid longitude");
+                return ValidationResult.Failure("Invalid longitude: must be between 34.00 and 36.00");
             }
 
 
@@ -47,7 +47,7 @@ namespace IntelligencePipeline.Validation
                 report.Description.Length < 10 ||
                 report.Description.Length > 500)
             {
-                return ValidationResult.Failure("Invalid description");
+                return ValidationResult.Failure("Invalid description have to conatin at least 10 - 500 chars");
             }
 
 

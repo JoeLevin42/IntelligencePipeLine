@@ -49,5 +49,22 @@ class DroneReport : Report
         public override string GetSummary()
             => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
 
+        public override string ToString()
+        {
+            return
+                $"ID: {ReportId}\n" +
+                $"Type: {GetType().Name}\n" +
+                $"Timestamp: {Timestamp}\n" +
+                $"Latitude: {Latitude}\n" +
+                $"Longitude: {Longitude}\n" +
+                $"Description: {Description}\n" +
+                $"Status: {Status}\n" +
+                $"Priority: {Priority}\n" +
+                $"Classification: {Classification}\n" +
+                $"Reliability Score: {ReliabilityScore}\n" +
+                $"Altitude : {Altitude}\n" +
+                $"ImageQuality: {ImageQuality}\n";
+
+        }
     }
 }

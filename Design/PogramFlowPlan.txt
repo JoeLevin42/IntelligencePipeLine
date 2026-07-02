@@ -1,0 +1,11 @@
+Program description:
+"""
+This program is taking intake from the user ony if the type are valid , for example
+when the user need to get in (int) type and he entering string its will be asking again and again
+until its valid (This is not logic rules validations its only checking fore type that the program will not crush)
+
+- After this the data delevired into logic rules validation layer its checks first the common fields for all the objects
+then its check the specific type of this reports and using the son -class of the BaseValidator for checking the specific
+field that only this reports conatin , The logic rule is - that all the fields have to valid by the logic rules;
+if one of the fields is not valid the main Validation fucniton return false and this report sends 
+into the rejectedReportsRepository 

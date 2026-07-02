@@ -1,8 +1,10 @@
-using System;
 using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Pipeline;
+using IntelligencePipeline.Statistics;
+using IntelligencePipeline.Utils;
 using IntelligencePipeline.Validation;
+using System;
 
 namespace IntelligencePipeline
 {
@@ -10,145 +12,159 @@ namespace IntelligencePipeline
     {
         static void Main(string[] args)
         {
-            ReportPipeline pipeline = new ReportPipeline();
-            bool exit = false;
+            ReportPipeline reportPipeline = new ReportPipeline();
+            bool isRunning = true;
 
-            while (!exit)
+            while (isRunning)
             {
-                Console.Clear();
+                ConsoleUI.ShowMainMenu();
 
-                Console.WriteLine("===== Intelligence Report System =====");
-                Console.WriteLine("1. Create Drone Report");
-                Console.WriteLine("2. Create Radar Report");
-                Console.WriteLine("3. Create Signal Report");
-                Console.WriteLine("4. Create Soldier Report");
-                Console.WriteLine("0. Exit");
-                Console.Write("Choose an option: ");
+                Console.Write("Select option: ");
+                string option = Console.ReadLine();
 
-                string menuChoice = Console.ReadLine();
-
-                if (menuChoice == "0")
+                if (option == "1")
                 {
-                    exit = true;
-                    continue;
+                    AddReport(reportPipeline);
+                }
+                else if (option == "2")
+                {
+                    ConsoleUI.PrintReports(reportPipeline.GetValidatedReports());
+                }
+                else if (option == "3")
+                {
+                    Console.Write("Enter keyword: ");
+                    string keyword = Console.ReadLine();
+
+                    ConsoleUI.PrintReports(reportPipeline.Search(keyword));
+                }
+                else if (option == "4")
+                {
+                    Priority priority =
+                        InputValidator.GetPriority("Enter priority (Low / Medium / High / Critical): ");
+
+                    ConsoleUI.PrintReports(reportPipeline.FilterByPriority(priority));
+                }
+                else if (option == "5")
+                {
+                    ReportStatus status =
+                        InputValidator.GetStatus("Enter status: ");
+
+                    ConsoleUI.PrintReports(reportPipeline.FilterByStatus(status));
+                }
+                else if (option == "6")
+                {
+                    DateTime from =
+                        InputValidator.GetDateTime("From (yyyy-MM-dd HH:mm): ");
+
+                    DateTime to =
+                        InputValidator.GetDateTime("To (yyyy-MM-dd HH:mm): ");
+
+                    ConsoleUI.PrintReports(reportPipeline.FilterByDateRange(from, to));
+                }
+                else if (option == "7")
+                {
+                    ConsoleUI.PrintReports(reportPipeline.SortByTimestamp());
+                }
+                else if (option == "8")
+                {
+                    ConsoleUI.PrintReports(reportPipeline.SortByPriority());
+                }
+                else if (option == "9")
+                {
+                    ConsoleUI.PrintReports(reportPipeline.SortByReliability());
+                }
+                else if (option == "10")
+                {
+                    int id = InputValidator.GetInt("Enter Report ID: ");
+                    ReportStatus status = InputValidator.GetStatus("Enter new status: ");
+
+                    bool updated = reportPipeline.UpdateReportStatus(id, status);
+
+                    Console.WriteLine(updated ? "Updated successfully" : "Report not found");
+                }
+                else if (option == "11")
+                {
+                    ConsoleUI.PrintReports(reportPipeline.GetRejectedReports());
+                }
+                else if (option == "12")
+                {
+                    PipelineStatistics stats = reportPipeline.GetStatistics();
+                    ConsoleUI.ShowStatistics(stats);
+                }
+                else if (option == "13")
+                {
+                    int id = InputValidator.GetInt("Enter Report ID: ");
+
+                    Report report = reportPipeline.GetReportById(id);
+
+                    ConsoleUI.PrintReport(report);
+                }
+                else if (option == "0")
+                {
+                    isRunning = false;
                 }
 
-                Report report = CreateReport(menuChoice);
-
-                if (report == null)
-                {
-                    Console.WriteLine("Invalid option.");
-                    Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
-                    continue;
-                }
-
-                pipeline.ProcessReport(report);
-
-                Console.WriteLine($"Status: {report.Status}");
-
-                if (report.Status == ReportStatus.Rejected)
-                {
-                    Console.WriteLine($"Reason: {report.RejectionReason}");
-                }
-
-                Console.WriteLine("\nReport processed successfully.\n");
-
-                pipeline.DisplayStatistics();
-
-                Console.WriteLine("\nPress any key to continue...");
+                Console.WriteLine($"\nPress any key to continue...");
                 Console.ReadKey();
             }
         }
 
-        private static Report CreateReport(string menuChoice)
+        static void AddReport(ReportPipeline reportPipeline)
         {
-            DateTime reportTimestamp = InputValidator.GetDateTime("Timestamp (yyyy-MM-dd HH:mm): ");
+            ConsoleUI.ShowAddReportMenu();
+
+            string type = Console.ReadLine();
+
+            if (type == "0")
+                return;
+
+            Report report = CreateReport(type);
+
+            if (report == null)
+            {
+                Console.WriteLine("Invalid report type");
+                return;
+            }
+
+            reportPipeline.ProcessReport(report);
+            ConsoleUI.ShowProcessedReport(report);
+        }
+
+        static Report CreateReport(string type)
+        {
+            DateTime timestamp = InputValidator.GetDateTime("Timestamp: ");
             double latitude = InputValidator.GetDouble("Latitude: ");
             double longitude = InputValidator.GetDouble("Longitude: ");
 
             Console.Write("Description: ");
-            string reportDescription = Console.ReadLine();
+            string description = Console.ReadLine();
 
-            switch (menuChoice)
-            {
-                case "1":
-                    {
-                        int altitude = InputValidator.GetInt("Altitude: ");
-                        int imageQuality = InputValidator.GetInt("Image Quality: ");
+            if (type == "1")
+                return new DroneReport(timestamp, latitude, longitude, description,
+                    InputValidator.GetInt("Altitude: "),
+                    InputValidator.GetInt("Image Quality: "));
 
-                        return new DroneReport(
-                            reportTimestamp,
-                            latitude,
-                            longitude,
-                            reportDescription,
-                            altitude,
-                            imageQuality);
-                    }
+            if (type == "2")
+                return new RadarReport(timestamp, latitude, longitude, description,
+                    InputValidator.GetInt("Speed: "),
+                    InputValidator.GetInt("Direction: "),
+                    InputValidator.GetInt("Distance: "));
 
-                case "2":
-                    {
-                        int speed = InputValidator.GetInt("Speed: ");
-                        int direction = InputValidator.GetInt("Direction: ");
-                        int distance = InputValidator.GetInt("Distance: ");
+            if (type == "3")
+                return new SignalReport(timestamp, latitude, longitude, description,
+                    InputValidator.GetDouble("Frequency: "),
+                    Console.ReadLine(),
+                    InputValidator.GetLanguage("Language: "),
+                    InputValidator.GetInt("Strength: "));
 
-                        return new RadarReport(
-                            reportTimestamp,
-                            latitude,
-                            longitude,
-                            reportDescription,
-                            speed,
-                            direction,
-                            distance);
-                    }
+            if (type == "4")
+                return new SoldierReport(timestamp, latitude, longitude, description,
+                    Console.ReadLine(),
+                    Console.ReadLine(),
+                    Console.ReadLine(),
+                    InputValidator.GetInt("Confidence: "));
 
-                case "3":
-                    {
-                        double frequency = InputValidator.GetDouble("Frequency: ");
-
-                        Console.Write("Content: ");
-                        string signalContent = Console.ReadLine();
-
-                        int languageValue = InputValidator.GetEnum("Language: ", typeof(Language));
-                        Language signalLanguage = (Language)languageValue;
-
-                        int signalStrength = InputValidator.GetInt("Signal Strength: ");
-
-                        return new SignalReport(
-                            reportTimestamp,
-                            latitude,
-                            longitude,
-                            reportDescription,
-                            frequency,
-                            signalContent,
-                            signalLanguage,
-                            signalStrength);
-                    }
-
-                case "4":
-                    {
-                        Console.Write("Soldier Name: ");
-                        string soldierName = Console.ReadLine();
-
-                        Console.Write("Soldier ID: ");
-                        string soldierId = Console.ReadLine();
-
-                        Console.Write("Unit: ");
-                        string militaryUnit = Console.ReadLine();
-
-                        return new SoldierReport(
-                            reportTimestamp,
-                            latitude,
-                            longitude,
-                            reportDescription,
-                            soldierName,
-                            soldierId,
-                            militaryUnit);
-                    }
-
-                default:
-                    return null;
-            }
+            return null;
         }
     }
 }

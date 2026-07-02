@@ -25,12 +25,13 @@ namespace IntelligencePipeline.Models.Reports {
         protected set { _confidenceLevel = value; }
         }
 
-        public SoldierReport(DateTime timeStamp, double latitude, double longitude, string description, string soldierName, string soldierId, string unit)
+        public SoldierReport(DateTime timeStamp, double latitude, double longitude, string description, string soldierName, string soldierId, string unit,int confidenceLevel)
             : base(timeStamp, latitude, longitude, description)
         {
             SoldierName = soldierName;
             SoldierId = soldierId;
             Unit = unit;
+            ConfidenceLevel = confidenceLevel;
         }
 
         public override string GetSourceType()
@@ -54,6 +55,26 @@ namespace IntelligencePipeline.Models.Reports {
         }
         public override string GetSummary()
             => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
+
+        public override string ToString()
+        {
+            return
+                $"ID: {ReportId}\n" +
+                $"Type: {GetType().Name}\n" +
+                $"Timestamp: {Timestamp}\n" +
+                $"Latitude: {Latitude}\n" +
+                $"Longitude: {Longitude}\n" +
+                $"Description: {Description}\n" +
+                $"Status: {Status}\n" +
+                $"Priority: {Priority}\n" +
+                $"Classification: {Classification}\n" +
+                $"Reliability Score: {ReliabilityScore}\n" +
+                $"SoldierName : {SoldierName}\n" +
+                $"SoldierId : {SoldierId}\n" +
+                $"Unit: {Unit}\n" +
+                $"ConfidenceLevel: {ConfidenceLevel}";
+        }
+
     }
 
 

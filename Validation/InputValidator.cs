@@ -1,3 +1,4 @@
+using IntelligencePipeline.Models.Enums;
 using System;
 
 namespace IntelligencePipeline.Validation
@@ -104,6 +105,78 @@ namespace IntelligencePipeline.Validation
                 else
                 {
                     Console.Write("Invalid selection. Try again: ");
+                }
+            }
+
+            return result;
+        }
+        // This validet priority non - case sensative
+        public static Priority GetPriority(string prompt)
+        {
+            Console.Write(prompt);
+
+            bool isValid = false;
+            Priority result = default;
+
+            while (!isValid)
+            {
+                string input = Console.ReadLine();
+
+                if (Enum.TryParse(input, true, out result))
+                {
+                    isValid = true;
+                }
+                else
+                {
+                    Console.Write("Invalid priority. Try again (Low / Medium / High / Critical): ");
+                }
+            }
+
+            return result;
+        }
+        //VAlidate user status if its valid (one from the enum)
+        public static ReportStatus GetStatus(string prompt)
+        {
+            Console.Write(prompt);
+
+            bool isValid = false;
+            ReportStatus result = default;
+
+            while (!isValid)
+            {
+                string input = Console.ReadLine();
+
+                if (Enum.TryParse(input, true, out result))
+                {
+                    isValid = true;
+                }
+                else
+                {
+                    Console.Write("Invalid status. Try again (New / Validating / Validated / Rejected / InProgress / Completed): ");
+                }
+            }
+
+            return result;
+        }
+        // ================= NEW: STRING BASED LANGUAGE INPUT =================
+        public static Language GetLanguage(string prompt)
+        {
+            Console.Write(prompt);
+
+            Language result = Language.English;
+            bool isValid = false;
+
+            while (!isValid)
+            {
+                string input = Console.ReadLine();
+
+                if (Enum.TryParse(input, true, out result))
+                {
+                    isValid = true;
+                }
+                else
+                {
+                    Console.Write("Invalid language. Try again: ");
                 }
             }
 

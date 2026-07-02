@@ -1,4 +1,6 @@
+using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
+using System.Reflection.Metadata;
 
 class RadarReport : Report
 {
@@ -55,4 +57,22 @@ class RadarReport : Report
     public override string GetSummary()
         => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
 
+    public override string ToString()
+    {
+        return
+            $"ID: {ReportId}\n" +
+            $"Type: {GetType().Name}\n" +
+            $"Timestamp: {Timestamp}\n" +
+            $"Latitude: {Latitude}\n" +
+            $"Longitude: {Longitude}\n" +
+            $"Description: {Description}\n" +
+            $"Status: {Status}\n" +
+            $"Priority: {Priority}\n" +
+            $"Classification: {Classification}\n" +
+            $"Reliability Score: {ReliabilityScore}\n" +
+            $"Speed : {Speed}\n" +
+            $"Direction : {Direction}\n" +
+            $"Distance: {Distance}\n";
+            
+    }
 }

@@ -15,8 +15,8 @@ namespace IntelligencePipeline.Models.Reports
         private double _longitude;
         private string _description;
         private ReportStatus _status;
-        private Priority? _priority;
-        private Classification? _classification;
+        private Priority _priority;
+        private Classification _classification;
         private int _reliabilityScore;
         private string _rejectionReason;
         
@@ -47,11 +47,11 @@ namespace IntelligencePipeline.Models.Reports
                      set { _status = value; }
         }
             
-        public Priority? Priority { get => _priority; 
+        public Priority Priority { get => _priority; 
                   set { _priority = value; }
         }
             
-        public Classification? Classification
+        public Classification Classification
         {
             get => _classification; 
               set { _classification = value; }
@@ -76,9 +76,7 @@ namespace IntelligencePipeline.Models.Reports
             Longitude = longitude;
             Description = description;
             Status = ReportStatus.New;
-            Priority = null; // starts with null and only in the pipeline its will be implemented
-            Classification = null; // starts with null and only in the pipeline its will be implemented
-            RejectionReason = null;
+           
         }
 
         public abstract string GetSourceType();
@@ -86,9 +84,21 @@ namespace IntelligencePipeline.Models.Reports
 
         public virtual string GetSummary()
         => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
-        public override string ToString()
-         => $"Report: {ReportId}, Timestamp: {Timestamp}, Latitude: {Latitude}, Longitude: {Longitude}, Description: {Description}, Status: {Status}";
 
+        public override string ToString()
+        {
+            return
+                $"ID: {ReportId}\n" +
+                $"Type: {GetType().Name}\n" +
+                $"Timestamp: {Timestamp}\n" +
+                $"Latitude: {Latitude}\n" +
+                $"Longitude: {Longitude}\n" +
+                $"Description: {Description}\n" +
+                $"Status: {Status}\n" +
+                $"Priority: {Priority}\n" +
+                $"Classification: {Classification}\n" +
+                $"Reliability Score: {ReliabilityScore}";
+        }
 
 
     }   
