@@ -17,7 +17,7 @@ namespace IntelligencePipeline.Validation
             const double maxFrequency = 3000.0;
             if (!(signalReport.Frequency >= minFrequency && signalReport.Frequency <= maxFrequency))
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Frequency: must be between " +
                     $"{minFrequency} and  {maxFrequency}");
             }
             const int minContentLength = 5;
@@ -25,7 +25,7 @@ namespace IntelligencePipeline.Validation
             if (!(signalReport.Content.Length >= minContentLength 
                 && signalReport.Content.Length <= maxContentLength))
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Content: must be between " +
                     $"{minContentLength} and - {maxContentLength}");
             }
             if (!Enum.IsDefined(typeof(Language) , signalReport.Language))
@@ -33,13 +33,13 @@ namespace IntelligencePipeline.Validation
                 return ValidationResult.Failure("Invalid language this is have to be one of the legal langauge");
             }
 
-            const int minSingalStength = -120;
+            const int minSingalStrength = -120;
             const int maxSignalStrength = 0;
-            if (!(signalReport.SignalStrength >= minSingalStength
+            if (!(signalReport.SignalStrength >= minSingalStrength
                 && signalReport.SignalStrength <= maxSignalStrength))
             {
                 return ValidationResult.Failure($"The signal strength is " +
-                    $"invalid have to be between {maxSignalStrength} - {maxSignalStrength}");
+                    $"invalid have to be between {minSingalStrength} - {maxSignalStrength}");
             }
             return ValidationResult.Success();
           

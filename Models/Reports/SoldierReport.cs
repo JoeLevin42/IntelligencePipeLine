@@ -42,7 +42,7 @@ namespace IntelligencePipeline.Models.Reports {
             const int BASE = 4;
             int realScore = 0;
 
-            string[] dangerousWords = { "weapon", "vechile", "movment", "explotion" };
+            string[] dangerousWords = { "weapon", "vehicle", "movement", "explosion" };
             if (dangerousWords.Any(word => Description.Contains(word , StringComparison.OrdinalIgnoreCase)))
             {
                 realScore += 1;

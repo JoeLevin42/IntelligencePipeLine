@@ -68,15 +68,15 @@ namespace IntelligencePipeline.ConsoleUtils
                     Console.Write("Soldier Name: ");
                     string soldierName = Console.ReadLine();
 
-                    Console.Write("Rank: ");
-                    string rank = Console.ReadLine();
+                    Console.Write("Soldier ID: ");
+                    string soldierId = Console.ReadLine();
 
                     Console.Write("Unit: ");
                     string unit = Console.ReadLine();
 
                     return new SoldierReport(timestamp, latitude, longitude, description,
                         soldierName,
-                        rank,
+                        soldierId,
                         unit,
                         InputValidator.GetInt("Confidence: "));
                 }

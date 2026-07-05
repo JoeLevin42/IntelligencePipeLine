@@ -6,6 +6,7 @@ using IntelligencePipeline.ConsoleUtils;
 using IntelligencePipeline.Validation;
 using System;
 
+
 namespace IntelligencePipeline
 {
     class Program

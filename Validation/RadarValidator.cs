@@ -23,14 +23,14 @@ namespace IntelligencePipeline.Validation
             const int maxDirection = 360;
             if (!(radarReport.Direction >= minDirection && radarReport.Direction <= maxDirection))
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Direction: must be between " +
                     $"{minDirection} and - {maxDirection}");
             }
             const int minDistance = 100;
             const int maxDistance = 100000;
             if (!(radarReport.Distance >= minDistance && radarReport.Distance <= maxDistance))
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Distance: must be between " +
                     $"{minDistance} and - {maxDistance}");
             }
 

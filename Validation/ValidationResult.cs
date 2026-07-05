@@ -1,7 +1,10 @@
 namespace IntelligencePipeline.Validation
 {
     public class ValidationResult
-    {
+    {   
+        //This method is taking the validatons result 
+        //if valid = true , Errmsg = null
+        //if invalid = false , errmsg = the error reason
         public bool IsValid { get; }
         public string ErrorMessage { get; }
 

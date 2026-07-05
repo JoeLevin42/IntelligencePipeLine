@@ -20,6 +20,12 @@ namespace IntelligencePipeline.Validation
 
         protected ValidationResult ValidateCommonFields(Report report)
         {
+            string[] sourceTypes = { "Soldier", "Signal", "Radar", "Drone" };
+
+            if (!sourceTypes.Contains(report.GetSourceType()))
+            {
+                return ValidationResult.Failure("Invalid source type have to be one of the 4 legal source types");
+            }
             if (report.Timestamp > DateTime.Now)
             {
                 return ValidationResult.Failure("Timestamp cannot be in the future");
@@ -36,7 +42,7 @@ namespace IntelligencePipeline.Validation
             if (report.Latitude < minLatitude
                 || report.Latitude > maxLatitude)
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Latitude: must be between " +
                     $"{minLatitude} and - {maxLatitude}");
             }
 
@@ -45,7 +51,7 @@ namespace IntelligencePipeline.Validation
             if (report.Longitude < minLongitude
                 || report.Longitude > maxLongitude)
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Longitude: must be between " +
                     $"{minLongitude} and - {maxLongitude}");
 
             }
@@ -56,7 +62,7 @@ namespace IntelligencePipeline.Validation
             report.Description.Length < minDescLen ||
             report.Description.Length > maxDescLen)
             {
-                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                return ValidationResult.Failure($"Invalid Description: must be between " +
                     $"{minDescLen} and - {maxDescLen}");
             }
 
