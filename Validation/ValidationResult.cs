@@ -2,23 +2,19 @@ namespace IntelligencePipeline.Validation
 {
     public class ValidationResult
     {
-        private bool _isValid;
-        private string _errorMessage;
+        public bool IsValid { get; }
+        public string ErrorMessage { get; }
 
-        public bool IsValid { get => _isValid; }
-        public string ErrorMessage { get => _errorMessage; }
-
-        public ValidationResult(bool isValid , string errorMessage)
+        private ValidationResult(bool isValid, string errorMessage)
         {
-            _isValid = isValid;
-            _errorMessage = errorMessage;
-
+            IsValid = isValid;
+            ErrorMessage = errorMessage;
         }
 
-        public static ValidationResult Success() {
-            return new ValidationResult(true, string.Empty); }
-        public static ValidationResult Failure(string errorMessage) {
-            return new ValidationResult(false, errorMessage);
-        }
-        }
+        public static ValidationResult Success()
+            => new ValidationResult(true, string.Empty);
+
+        public static ValidationResult Failure(string errorMessage)
+            => new ValidationResult(false, errorMessage);
     }
+}

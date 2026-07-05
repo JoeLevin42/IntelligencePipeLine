@@ -2,8 +2,9 @@ using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Pipeline;
 using IntelligencePipeline.Statistics;
-using IntelligencePipeline.Utils;
+using IntelligencePipeline.ConsoleUtils;
 using IntelligencePipeline.Validation;
+using IntelligencePipeline.reportCreation;
 using System;
 
 namespace IntelligencePipeline
@@ -24,7 +25,7 @@ namespace IntelligencePipeline
 
                 if (option == "1")
                 {
-                    AddReport(reportPipeline);
+                    ReportCreator.AddReport(reportPipeline);
                 }
                 else if (option == "2")
                 {
@@ -54,10 +55,10 @@ namespace IntelligencePipeline
                 else if (option == "6")
                 {
                     DateTime from =
-                        InputValidator.GetDateTime("From (yyyy-MM-dd HH:mm): ");
+                        InputValidator.GetDateTime("From (yyyy-mm-dd HH:mm): ");
 
                     DateTime to =
-                        InputValidator.GetDateTime("To (yyyy-MM-dd HH:mm): ");
+                        InputValidator.GetDateTime("To (yyyy-mm-dd HH:mm): ");
 
                     ConsoleUI.PrintReports(reportPipeline.FilterByDateRange(from, to));
                 }
@@ -104,67 +105,10 @@ namespace IntelligencePipeline
                     isRunning = false;
                 }
 
-                Console.WriteLine($"\nPress any key to continue...");
+                Console.WriteLine("\nPress any key to continue...");
                 Console.ReadKey();
             }
         }
 
-        static void AddReport(ReportPipeline reportPipeline)
-        {
-            ConsoleUI.ShowAddReportMenu();
-
-            string type = Console.ReadLine();
-
-            if (type == "0")
-                return;
-
-            Report report = CreateReport(type);
-
-            if (report == null)
-            {
-                Console.WriteLine("Invalid report type");
-                return;
-            }
-
-            reportPipeline.ProcessReport(report);
-            ConsoleUI.ShowProcessedReport(report);
-        }
-
-        static Report CreateReport(string type)
-        {
-            DateTime timestamp = InputValidator.GetDateTime("Timestamp: ");
-            double latitude = InputValidator.GetDouble("Latitude: ");
-            double longitude = InputValidator.GetDouble("Longitude: ");
-
-            Console.Write("Description: ");
-            string description = Console.ReadLine();
-
-            if (type == "1")
-                return new DroneReport(timestamp, latitude, longitude, description,
-                    InputValidator.GetInt("Altitude: "),
-                    InputValidator.GetInt("Image Quality: "));
-
-            if (type == "2")
-                return new RadarReport(timestamp, latitude, longitude, description,
-                    InputValidator.GetInt("Speed: "),
-                    InputValidator.GetInt("Direction: "),
-                    InputValidator.GetInt("Distance: "));
-
-            if (type == "3")
-                return new SignalReport(timestamp, latitude, longitude, description,
-                    InputValidator.GetDouble("Frequency: "),
-                    Console.ReadLine(),
-                    InputValidator.GetLanguage("Language: "),
-                    InputValidator.GetInt("Strength: "));
-
-            if (type == "4")
-                return new SoldierReport(timestamp, latitude, longitude, description,
-                    Console.ReadLine(),
-                    Console.ReadLine(),
-                    Console.ReadLine(),
-                    InputValidator.GetInt("Confidence: "));
-
-            return null;
-        }
     }
 }

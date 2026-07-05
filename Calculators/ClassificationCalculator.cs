@@ -7,67 +7,65 @@ namespace IntelligencePipeline.Calculators
     {
         public Classification Calculate(Report report)
         {
-            string description = report.Description.ToLower();
+            string description = report.Description?.ToLower() ?? "";
 
-
-            // TOP SECRET
+            // ================= TOP SECRET =================
 
             if (report.Priority == Priority.Critical)
             {
                 return Classification.TopSecret;
             }
 
-
-            if (ContainsKeyword(description, "target", "attack", "missile"))
+            // Top Secret: Signal Content contains target / attack / missile
+            if (report is SignalReport signal)
             {
-                return Classification.TopSecret;
+                string content = signal.Content?.ToLower() ?? "";
+
+                if (ContainsKeyword(content, "target", "attack", "missile"))
+                {
+                    return Classification.TopSecret;
+                }
             }
 
-            // SECRET
-         
+            // ================= SECRET =================
+
             if (report.Priority == Priority.High)
             {
                 return Classification.Secret;
             }
 
-
-            if (report.GetSourceType() == "Signal")
+            if (report is SignalReport)
             {
                 return Classification.Secret;
             }
-
 
             if (ContainsKeyword(description, "weapon", "border"))
             {
                 return Classification.Secret;
             }
 
-            // RESTRICTED
-         
+            // ================= RESTRICTED =================
 
             if (report.Priority == Priority.Medium)
             {
                 return Classification.Restricted;
             }
 
-
-            if (report.GetSourceType() == "Soldier")
+            if (report is SoldierReport)
             {
                 return Classification.Restricted;
             }
 
-            // DEFAULT
-            
+            // ================= UNCLASSIFIED =================
 
             return Classification.Unclassified;
         }
-
 
         private bool ContainsKeyword(string text, params string[] keywords)
         {
             foreach (string keyword in keywords)
             {
-                if (text.Contains(keyword.ToLower()))
+                if (text.Contains(keyword))
                 {
                     return true;
                 }

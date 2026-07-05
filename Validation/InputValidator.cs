@@ -158,7 +158,7 @@ namespace IntelligencePipeline.Validation
 
             return result;
         }
-        // ================= NEW: STRING BASED LANGUAGE INPUT =================
+        // STRING to language validation
         public static Language GetLanguage(string prompt)
         {
             Console.Write(prompt);

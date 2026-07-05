@@ -7,30 +7,33 @@ namespace IntelligencePipeline.Calculators
     {
         public Priority Calculate(Report report)
         {
-            string description = report.Description.ToLower();
+            string description = report.Description?.ToLower() ?? "";
 
-            // CRITICAL RULES
-            // Critical: keywords in description
+            // Critical:
+
+            // Critical: global keywords
             if (ContainsKeyword(description, "missile", "explosion", "attack", "fire"))
             {
                 return Priority.Critical;
             }
 
             // Critical: Radar Speed >= 800
+            const int criticalSpeed = 800;
             if (report is RadarReport radar)
             {
-                if (radar.Speed >= 800)
+                if (radar.Speed >= criticalSpeed)
                 {
                     return Priority.Critical;
                 }
             }
 
-            // Critical: Signal with TARGET description AND ATTACK content
+            // Critical: Signal target + attack content
             if (report is SignalReport signal)
             {
+                string content = signal.Content?.ToLower() ?? "";
+
                 bool hasTarget = ContainsKeyword(description, "target");
-                bool hasAttack = signal.Content != null &&
-                                 ContainsKeyword(signal.Content.ToLower(), "attack");
+                bool hasAttack = ContainsKeyword(content, "attack");
 
                 if (hasTarget && hasAttack)
                 {
@@ -38,68 +41,66 @@ namespace IntelligencePipeline.Calculators
                 }
             }
 
-            
-            // HIGH RULES
-           
+            //High:            
 
-            // High: keywords
             if (ContainsKeyword(description, "weapon", "suspicious", "border"))
             {
                 return Priority.High;
             }
 
-            // High: Drone Altitude < 500
+            const int hightAltitude = 500;
             if (report is DroneReport drone)
             {
-                if (drone.Altitude < 500)
+                if (drone.Altitude < hightAltitude)
                 {
                     return Priority.High;
                 }
             }
 
-            // High: Radar Speed >= 400
+            const int highSpeed = 400;
             if (report is RadarReport radar2)
             {
-                if (radar2.Speed >= 400)
+                if (radar2.Speed >= highSpeed)
                 {
                     return Priority.High;
                 }
             }
 
-            // High: Soldier ConfidenceLevel >= 4 with movement
+            const int highConfidenceLevel = 4;
             if (report is SoldierReport soldier)
             {
-                if (soldier.ConfidenceLevel >= 4 &&
+                if (soldier.ConfidenceLevel >= highConfidenceLevel &&
                     ContainsKeyword(description, "movement"))
                 {
                     return Priority.High;
                 }
             }
 
-            // MEDIUM RULES
+            // Medium:
 
-            // Medium: keywords
             if (ContainsKeyword(description, "movement", "vehicle", "activity"))
             {
                 return Priority.Medium;
             }
 
-            // Medium: Radar Speed >= 120
+            const int mediumSpeed = 120;
             if (report is RadarReport radar3)
             {
-                if (radar3.Speed >= 120)
+                if (radar3.Speed >= mediumSpeed)
                 {
                     return Priority.Medium;
                 }
             }
 
-            // Medium: ReliabilityScore >= 7
-            if (report.ReliabilityScore >= 7)
+            // Reliability rule should NOT override higher priority logic
+            const int mediumReliabilityScore = 7;
+            if (report.ReliabilityScore >= mediumReliabilityScore)
             {
                 return Priority.Medium;
             }
 
-            // DEFAULT
+            // Low:
+
             return Priority.Low;
         }
 
@@ -107,7 +108,7 @@ namespace IntelligencePipeline.Calculators
         {
             foreach (string keyword in keywords)
             {
-                if (text.Contains(keyword.ToLower()))
+                if (text.Contains(keyword))
                 {
                     return true;
                 }

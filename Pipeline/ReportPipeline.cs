@@ -4,6 +4,7 @@ using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Statistics;
 using IntelligencePipeline.Storage;
 using IntelligencePipeline.Validation;
+using IntelligencePipeline.reportCreation;
 using System;
 
 
@@ -32,8 +33,10 @@ namespace IntelligencePipeline.Pipeline
             _statistics = new PipelineStatistics();
         }
 
-        // ================= CORE =================
+        // Valid reports - going to the repository
+        //Invalid reports going to the rjected repository
 
+        // ---ProcessReport (For creation of new report and process data)
         public void ProcessReport(Report report)
         {
             report.Status = ReportStatus.Validating;
@@ -60,7 +63,7 @@ namespace IntelligencePipeline.Pipeline
 
             _reportRepository.Add(report);
         }
-
+        //Declare on report that he rejected and adding him to the rejected repository
         private void Reject(Report report, string reason)
         {
             report.Status = ReportStatus.Rejected;
@@ -78,7 +81,7 @@ namespace IntelligencePipeline.Pipeline
 
             return null;
         }
-
+        //Calculate all the calculations in the program
         private void CalculateMetrics(Report report)
         {
             report.ReliabilityScore = _reliabilityCalculator.Calculate(report);
@@ -86,90 +89,104 @@ namespace IntelligencePipeline.Pipeline
             report.Classification = _classificationCalculator.Calculate(report);
         }
 
-        // ================= DATA =================
+        // Get Methods:
 
+        //Takes all the valid repots from the Valid-Repository
         public List<Report> GetValidatedReports()
         {
             return _reportRepository.GetAll();
         }
 
+        //Takes all the invalid (rejected) report form the rejected-repository
         public List<Report> GetRejectedReports()
         {
             return _rejectedRepository.GetAll();
         }
+        //Return the report by id (null if not found)
         public Report GetReportById(int reportId)
         {
             return _reportRepository.GetById(reportId);
         }
 
-        // ================= SEARCH =================
+        // Search method : (searching only valid reports from desciprtion)
 
+        // Searches validated reports by description keyword
         public List<Report> Search(string keyword)
         {
-            List<Report> result = new List<Report>();
-            List<Report> allReports = _reportRepository.GetAll();
-
-            for (int index = 0; index < allReports.Count; index++)
-            {
-                if (allReports[index].Description != null &&
-                    allReports[index].Description.ToLower().Contains(keyword.ToLower()))
-                {
-                    result.Add(allReports[index]);
-                }
-            }
-
-            return result;
+            return _reportRepository.Search(keyword);
         }
 
-        // ================= FILTERS =================
+        // Filters Methods:
 
+        // Returns all reports with the selected priority
         public List<Report> FilterByPriority(Priority priority)
         {
-            List<Report> result = new List<Report>();
-            List<Report> allReports = _reportRepository.GetAll();
-
-            for (int index = 0; index < allReports.Count; index++)
-            {
-                if (allReports[index].Priority == priority)
-                    result.Add(allReports[index]);
-            }
-
-            return result;
+            return _reportRepository.GetByPriority(priority);
         }
 
+        // Returns all reports with the selected status.
         public List<Report> FilterByStatus(ReportStatus status)
         {
-            List<Report> result = new List<Report>();
-            List<Report> allReports = _reportRepository.GetAll();
-
-            for (int index = 0; index < allReports.Count; index++)
-            {
-                if (allReports[index].Status == status)
-                    result.Add(allReports[index]);
-            }
-
-            return result;
+            return _reportRepository.GetByStatus(status);
         }
 
-        public List<Report> FilterByDateRange(DateTime from, DateTime to)
+        // Returns all reports by order of the date time, giving as param (from date - to date)
+        public List<Report> FilterByDateRange(DateTime fromDate, DateTime toDate)
         {
             List<Report> result = new List<Report>();
             List<Report> allReports = _reportRepository.GetAll();
 
             for (int index = 0; index < allReports.Count; index++)
             {
-                if (allReports[index].Timestamp >= from &&
-                    allReports[index].Timestamp <= to)
+                if (allReports[index].Timestamp >= fromDate &&
+                    allReports[index].Timestamp <= toDate)
                 {
                     result.Add(allReports[index]);
+                }
+            }
+
+            return result; // List of the dates after filtering
+        }
+
+        // Returns all reports with the selected classification
+        public List<Report> FilterByClassification(Classification classification)
+        {
+            List<Report> result = new List<Report>();
+
+            List<Report> reports = _reportRepository.GetAll();
+
+            for (int index = 0; index < reports.Count; index++)
+            {
+                if (reports[index].Classification == classification)
+                {
+                    result.Add(reports[index]);
+                }
+            }
+
+            return result; // list of the reports after filtering
+        }
+
+        // Returns all reports of the selected source type
+        public List<Report> FilterBySourceType(Type sourceType)
+        {
+            List<Report> result = new List<Report>();
+
+            List<Report> reports = _reportRepository.GetAll();
+
+            for (int index = 0; index < reports.Count; index++)
+            {
+                if (reports[index].GetType() == sourceType)
+                {
+                    result.Add(reports[index]);
                 }
             }
 
             return result;
         }
 
-        // ================= SORT =================
+        // Sort Methods:
 
+        // Sorting the repots by time stamp from older to new
         public List<Report> SortByTimestamp()
         {
             List<Report> list = _reportRepository.GetAll();
@@ -187,17 +204,17 @@ namespace IntelligencePipeline.Pipeline
                 }
             }
 
-            return list;
+            return list; // The sorted by time reports list
         }
-
+        //This method is giving weight to the priority , For sorting the priority
+        //form the Higher to lower (Helper fucniton)
+        
         private int GetPriorityWeight(Priority priority)
         {
-            if (priority == Priority.Critical) return 4;
-            if (priority == Priority.High) return 3;
-            if (priority == Priority.Medium) return 2;
-            return 1;
+            return (int)priority;
         }
 
+        // Sorting the reports by priority (numeric values up)
         public List<Report> SortByPriority()
         {
             List<Report> list = _reportRepository.GetAll();
@@ -216,9 +233,10 @@ namespace IntelligencePipeline.Pipeline
                 }
             }
 
-            return list;
+            return list; //The sorted priority list from (Critical -> Low) (by numeric values)
         }
 
+        //Sorting the reports by realidabilty number
         public List<Report> SortByReliability()
         {
             List<Report> list = _reportRepository.GetAll();
@@ -236,28 +254,29 @@ namespace IntelligencePipeline.Pipeline
                 }
             }
 
-            return list;
+            return list; // The sorted reports list after sorting by realiabilty
         }
 
 
 
-        // ================= UPDATE STATUS =================
+        // Update status Method:
 
+        //This method can update the status of the report (Bool)
         public bool UpdateReportStatus(int reportId, ReportStatus newStatus)
         {
             Report report = _reportRepository.GetById(reportId);
 
             if (report == null)
             {
-                return false;
+                return false; //Flag that the update status failed
             }
 
             _reportRepository.UpdateStatus(reportId, newStatus);
 
-            return true;
+            return true; // Flag that the update status happend
         }
 
-        // ================= STATISTICS =================
+        // Get Statistics method
 
         public PipelineStatistics GetStatistics()
         {
@@ -266,7 +285,7 @@ namespace IntelligencePipeline.Pipeline
                 _rejectedRepository.GetAll()
             );
 
-            return _statistics;
+            return _statistics; // returns the calculations
         }
     }
 }

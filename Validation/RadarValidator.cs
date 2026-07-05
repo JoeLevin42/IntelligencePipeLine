@@ -9,19 +9,29 @@ namespace IntelligencePipeline.Validation
         {   
 
             //Convert this to the the specific report for access the attributes
+            // No magic numbers!!!!
             RadarReport radarReport = (RadarReport)report;
 
-            if (!(radarReport.Speed >=0 && radarReport.Speed <= 2000))
+            const int minSpeed = 0;
+            const int maxSpeed = 2000;
+            if (!(radarReport.Speed >=minSpeed && radarReport.Speed <= maxSpeed))
             {
-                return ValidationResult.Failure("The speed is invalid have to be between 0-2000!");
+                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                    $"{minSpeed} and - value out of range - {maxSpeed}");
             }
-            if (!(radarReport.Direction >= 0 && radarReport.Direction <= 360))
+            const int minDirection = 0;
+            const int maxDirection = 360;
+            if (!(radarReport.Direction >= minDirection && radarReport.Direction <= maxDirection))
             {
-                return ValidationResult.Failure("The Direction is invalid have to be between 0-360");
+                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                    $"{minDirection} and - value out of range - {maxDirection}");
             }
-            if (!(radarReport.Distance >= 100 && radarReport.Distance <= 100000))
+            const int minDistance = 100;
+            const int maxDistance = 100000;
+            if (!(radarReport.Distance >= minDistance && radarReport.Distance <= maxDistance))
             {
-                return ValidationResult.Failure("The Distance is invalid have to be between 100 - 100000");
+                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                    $"{minDistance} and - value out of range - {maxDistance}");
             }
 
             return ValidationResult.Success();

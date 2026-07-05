@@ -25,29 +25,39 @@ namespace IntelligencePipeline.Validation
                 return ValidationResult.Failure("Timestamp cannot be in the future");
             }
 
+            
             if (report.Timestamp < new DateTime(2020, 1, 1))
             {
-                return ValidationResult.Failure("Timestamp is too old");
+                return ValidationResult.Failure("Timestamp is too old cant be before (2020, 1, 1");
+            }
+            //Check if not in the range 
+            const double minLatitude = 29.5000;
+            const double maxLatitude = 33.5000;
+            if (report.Latitude < minLatitude
+                || report.Latitude > maxLatitude)
+            {
+                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                    $"{minLatitude} and - value out of range - {maxLatitude}");
             }
 
-
-            if (report.Latitude < 29.5000 || report.Latitude > 33.5000)
+            const double minLongitude = 34.0000;
+            const double maxLongitude = 36.0000;
+            if (report.Longitude < minLongitude
+                || report.Longitude > maxLongitude)
             {
-                return ValidationResult.Failure("Invalid Latitude: must be between 29.500 and 33.500");
+                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                    $"{minLongitude} and - value out of range - {maxLongitude}");
+
             }
 
-
-            if (report.Longitude < 34.0000 || report.Longitude > 36.0000)
+            const int minDescLen = 10;
+            const int maxDescLen = 500;
+            if (string.IsNullOrWhiteSpace(report.Description) ||
+            report.Description.Length < minDescLen ||
+            report.Description.Length > maxDescLen)
             {
-                return ValidationResult.Failure("Invalid longitude: must be between 34.00 and 36.00");
-            }
-
-
-            if (string.IsNullOrEmpty(report.Description) ||
-                report.Description.Length < 10 ||
-                report.Description.Length > 500)
-            {
-                return ValidationResult.Failure("Invalid description have to conatin at least 10 - 500 chars");
+                return ValidationResult.Failure($"Invalid Speed: must be between " +
+                    $"{minDescLen} and - value out of range - {maxDescLen}");
             }
 
 
