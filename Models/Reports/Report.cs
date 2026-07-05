@@ -87,7 +87,7 @@ namespace IntelligencePipeline.Models.Reports
 
         public override string ToString()
         {
-            return
+            string result =
                 $"ID: {ReportId}\n" +
                 $"Type: {GetType().Name}\n" +
                 $"Timestamp: {Timestamp}\n" +
@@ -98,6 +98,14 @@ namespace IntelligencePipeline.Models.Reports
                 $"Priority: {Priority}\n" +
                 $"Classification: {Classification}\n" +
                 $"Reliability Score: {ReliabilityScore}";
+
+                if (RejectionReason != null)
+            {
+                result += $"RejectionReason: {RejectionReason}\n";
+            }
+
+            return result;
+
         }
 
 

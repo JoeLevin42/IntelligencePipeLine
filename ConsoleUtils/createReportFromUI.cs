@@ -54,32 +54,35 @@ namespace IntelligencePipeline.ConsoleUtils
                         InputValidator.GetInt("Direction: "),
                         InputValidator.GetInt("Distance: "));
 
-                if (type == "3")
-                {
-                    Console.Write("Content: ");
-                    return new SignalReport(timestamp, latitude, longitude, description,
-                        InputValidator.GetDouble("Frequency: "),
-                        Console.ReadLine(),
-                        InputValidator.GetLanguage("Language: "),
-                        InputValidator.GetInt("Signal Strength: "));
-                }
-                if (type == "4")
-                {
-                    Console.Write("Soldier Name: ");
-                    string soldierName = Console.ReadLine();
+            if (type == "3")
+            {
+                Console.Write("Content: ");
+                string content = Console.ReadLine();
 
-                    Console.Write("Soldier ID: ");
-                    string soldierId = Console.ReadLine();
+                return new SignalReport(timestamp, latitude, longitude, description,
+                    InputValidator.GetDouble("Frequency: "),
+                    content,
+                    InputValidator.GetLanguage("Language: "),
+                    InputValidator.GetInt("Signal Strength: ")
+                );
+            }
+            if (type == "4")
+            {
+                Console.Write("Soldier Name: ");
+                string soldierName = Console.ReadLine();
 
-                    Console.Write("Unit: ");
-                    string unit = Console.ReadLine();
+                Console.Write("Soldier ID: ");
+                string soldierId = Console.ReadLine();
 
-                    return new SoldierReport(timestamp, latitude, longitude, description,
-                        soldierName,
-                        soldierId,
-                        unit,
-                        InputValidator.GetInt("Confidence: "));
-                }
+                Console.Write("Unit: ");
+                string unit = Console.ReadLine();
+
+                return new SoldierReport(timestamp, latitude, longitude, description,
+                    soldierName,
+                    soldierId,
+                    unit,
+                    InputValidator.GetInt("Confidence: "));
+            }
 
                 return null;
             }
