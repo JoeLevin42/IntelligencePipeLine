@@ -1,8 +1,9 @@
 using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Statistics;
+using IntelligencePipeline.ConsoleUtils;
 using System;
-using System.Collections.Generic;
+
 
 namespace IntelligencePipeline.ConsoleUtils
 {

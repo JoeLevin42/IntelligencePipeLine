@@ -15,7 +15,7 @@ namespace IntelligencePipeline.Validation
                 && droneReport.Altitude <= maxAltitude) )
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minAltitude} and - value out of range - {maxAltitude}");
+                    $"{minAltitude} and - {maxAltitude}");
             }
 
             const int minQuality = 1;
@@ -23,7 +23,7 @@ namespace IntelligencePipeline.Validation
             if (!(droneReport.ImageQuality >= 1 && droneReport.ImageQuality <= 100))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minQuality} and - value out of range - {maxQuality}");
+                    $"{minQuality} and - {maxQuality}");
 
             }
 

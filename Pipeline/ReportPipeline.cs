@@ -4,7 +4,7 @@ using IntelligencePipeline.Models.Reports;
 using IntelligencePipeline.Statistics;
 using IntelligencePipeline.Storage;
 using IntelligencePipeline.Validation;
-using IntelligencePipeline.reportCreation;
+using IntelligencePipeline.ConsoleUtils;
 using System;
 
 

@@ -17,21 +17,21 @@ namespace IntelligencePipeline.Validation
             if (!(radarReport.Speed >=minSpeed && radarReport.Speed <= maxSpeed))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minSpeed} and - value out of range - {maxSpeed}");
+                    $"{minSpeed} and - {maxSpeed}");
             }
             const int minDirection = 0;
             const int maxDirection = 360;
             if (!(radarReport.Direction >= minDirection && radarReport.Direction <= maxDirection))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minDirection} and - value out of range - {maxDirection}");
+                    $"{minDirection} and - {maxDirection}");
             }
             const int minDistance = 100;
             const int maxDistance = 100000;
             if (!(radarReport.Distance >= minDistance && radarReport.Distance <= maxDistance))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minDistance} and - value out of range - {maxDistance}");
+                    $"{minDistance} and - {maxDistance}");
             }
 
             return ValidationResult.Success();

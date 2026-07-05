@@ -18,7 +18,7 @@ namespace IntelligencePipeline.Validation
             if (!(signalReport.Frequency >= minFrequency && signalReport.Frequency <= maxFrequency))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minFrequency} and - value out of range - {maxFrequency}");
+                    $"{minFrequency} and  {maxFrequency}");
             }
             const int minContentLength = 5;
             const int maxContentLength = 1000;
@@ -26,7 +26,7 @@ namespace IntelligencePipeline.Validation
                 && signalReport.Content.Length <= maxContentLength))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minContentLength} and - value out of range - {maxContentLength}");
+                    $"{minContentLength} and - {maxContentLength}");
             }
             if (!Enum.IsDefined(typeof(Language) , signalReport.Language))
             {

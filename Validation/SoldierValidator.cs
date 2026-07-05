@@ -18,7 +18,7 @@ namespace IntelligencePipeline.Validation
                 && soldierReport.SoldierName.Length <= maxNameLen))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minNameLen} and - value out of range - {maxNameLen}");
+                    $"{minNameLen} and - {maxNameLen}");
             }
             const int idLen = 7;
             if (soldierReport.SoldierId.ToString().Length!= idLen)
@@ -30,7 +30,7 @@ namespace IntelligencePipeline.Validation
             if (!(soldierReport.ConfidenceLevel >= 1 && soldierReport.ConfidenceLevel <=5))
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minConfidenceLevel} and - value out of range - {maxConfidenceLevel}");
+                    $"{minConfidenceLevel} and - {maxConfidenceLevel}");
             }
             //if all the validation went good this is will success
             return ValidationResult.Success();

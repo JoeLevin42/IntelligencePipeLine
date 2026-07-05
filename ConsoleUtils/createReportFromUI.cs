@@ -6,7 +6,7 @@ using IntelligencePipeline.Validation;
 using IntelligencePipeline;
 using System;
 
-namespace IntelligencePipeline.reportCreation
+namespace IntelligencePipeline.ConsoleUtils
 {
     static class ReportCreator
     {

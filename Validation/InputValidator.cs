@@ -3,6 +3,9 @@ using System;
 
 namespace IntelligencePipeline.Validation
 {
+
+    //This file is checking the types of the user and validate them
+    // until the user will not enter valid type the program will ask again and again for the type
     public static class InputValidator
     {
         public static DateTime GetDateTime(string prompt)

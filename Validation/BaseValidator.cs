@@ -28,7 +28,7 @@ namespace IntelligencePipeline.Validation
             
             if (report.Timestamp < new DateTime(2020, 1, 1))
             {
-                return ValidationResult.Failure("Timestamp is too old cant be before (2020, 1, 1");
+                return ValidationResult.Failure("Timestamp is too old cant be before (2020, 1, 1)");
             }
             //Check if not in the range 
             const double minLatitude = 29.5000;
@@ -37,7 +37,7 @@ namespace IntelligencePipeline.Validation
                 || report.Latitude > maxLatitude)
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minLatitude} and - value out of range - {maxLatitude}");
+                    $"{minLatitude} and - {maxLatitude}");
             }
 
             const double minLongitude = 34.0000;
@@ -46,7 +46,7 @@ namespace IntelligencePipeline.Validation
                 || report.Longitude > maxLongitude)
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minLongitude} and - value out of range - {maxLongitude}");
+                    $"{minLongitude} and - {maxLongitude}");
 
             }
 
@@ -57,7 +57,7 @@ namespace IntelligencePipeline.Validation
             report.Description.Length > maxDescLen)
             {
                 return ValidationResult.Failure($"Invalid Speed: must be between " +
-                    $"{minDescLen} and - value out of range - {maxDescLen}");
+                    $"{minDescLen} and - {maxDescLen}");
             }
 
 

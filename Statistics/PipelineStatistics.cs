@@ -1,7 +1,7 @@
 using System;
 using IntelligencePipeline.Models.Enums;
 using IntelligencePipeline.Models.Reports;
-using IntelligencePipeline.reportCreation;
+using IntelligencePipeline.ConsoleUtils;
 
 namespace IntelligencePipeline.Statistics
 {
